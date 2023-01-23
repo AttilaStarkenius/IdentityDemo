@@ -1,6 +1,7 @@
 using IdentityDemo.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityDemo
 {
@@ -19,6 +20,9 @@ namespace IdentityDemo
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.ConfigureApplicationCookie();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();

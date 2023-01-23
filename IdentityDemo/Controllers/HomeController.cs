@@ -2,16 +2,19 @@
 using IdentityDemo.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Diagnostics;
 
 namespace IdentityDemo.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger, UserManager<Member> userManager,
-            ApplicationDbContext db, RoleManager<IdentityRole>role;
+        private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<Member> userManager;
+        private readonly ApplicationDbContext db;
+        private readonly RoleManager<IdentityRole>role;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<Member> userManager, ApplicationDbContext db, RoleManager<IdentityRole>role)
         {
             _logger = logger;
         }
@@ -24,12 +27,13 @@ namespace IdentityDemo.Controllers
             //{
 
             //}
-            var user = await userManager.AddToRoleAsync
+            var r = await userManager.AddToRoleAsync(user, "Admin");
             return View();
         }
 
-        public IActionResult Privacy()
+        public async IActionResult Privacy()
         {
+            var user = await UserManager.GetUserAsync
             return View();
         }
 
